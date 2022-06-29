@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import x from 'prop-types';
 
 import './styles.css';
+import useDebounce from '../../hooks/useDebounce';
 
-const SearchInput = ({ searchValue, handleChange }) => {
+const SearchInput = ({ value, onChange }) => {
+  const [displayValue, setDisplayValue] = useState(value);
+  const debouncedChange = useDebounce(onChange, 5000);
+
+  function handleChange(event) {
+    const { value: dataValue } = event.target;
+    setDisplayValue(dataValue);
+    debouncedChange(dataValue);
+  }
+
   return (
     <input
       className="text-input"
       onChange={handleChange}
-      value={searchValue}
+      value={displayValue}
       type="search"
       placeholder="Type your search"
     />
@@ -16,8 +26,8 @@ const SearchInput = ({ searchValue, handleChange }) => {
 };
 
 SearchInput.propTypes = {
-  searchValue: x.string.isRequired,
-  handleChange: x.func.isRequired,
+  value: x.string.isRequired,
+  onChange: x.func.isRequired,
 };
 
 export default SearchInput;

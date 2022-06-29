@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {  useState, useEffect, useCallback } from 'react';
 
 import './style.css';
 
@@ -41,16 +41,11 @@ const Home = () => {
     setPage(nextPage);
   };
 
-  const handleChange = (e) => {
-    const { value } = e.target;
-    setSearchValue(value);
-  };
-
   return (
     <section className="container">
       <div className="search-container">
         {!!searchValue && <h1> SearchValue: {searchValue} </h1>}
-        <SearchInput searchValue={searchValue} handleChange={handleChange} />
+        <SearchInput value={searchValue} onChange={(search) => setSearchValue(search)} />
       </div>
 
       {filteredPosts.length === 0 && <p>Not found</p>}
